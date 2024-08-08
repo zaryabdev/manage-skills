@@ -20,12 +20,14 @@ import {
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 import "./App.css";
 
+import { Signal, SignalHigh, SignalLow, SignalMedium, SignalZero } from "lucide-react";
 import { useState } from "react";
 import CreatableSkill from "./CreatableSkill";
 
 function Employe({ skills, setSkills, employeData }) {
+    const [toggleAddSkill, setToggleAddSkill] = useState(true)
     return (
-        <div className="mx-auto bg-gray-100 max-w-8xl px-2 sm:px-6 lg:px-8 mt-2">
+        <div className="mx-auto bg-gray-100 max-w-8xl px-2 sm:px-6 lg:px-8 mt-2 ">
             <div className="flex items-center">
                 <Avatar className="me-2">
                     <AvatarImage src={employeData.url} />
@@ -49,10 +51,13 @@ function Employe({ skills, setSkills, employeData }) {
                             />
                         );
                     })}
-                    <Button>+</Button>
-                    <CreatableSkill />
+                    {
+                        toggleAddSkill ? <Button onClick={() => setToggleAddSkill(false)}>+</Button> :
+                            <CreatableSkill options={skills} setOptions={setSkills} />
+                    }
                 </div>
             </div>
+
         </div>
     );
 }
@@ -64,31 +69,39 @@ const Skill = ({ skill, skills = [] }) => {
     return (
         <span>
             <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-2 text-sm font-medium text-gray-600">
-                {thisSkill.label}
-                {/* <Sample /> */}
+                <span>
 
-                <Select>
-                    <SelectTrigger className="w-2">
-                        {skill.experience}
-                        <SelectValue placeholder={skill.experience} />
+                    {thisSkill.label}
+                </span>
+                {/* <span>
+                    {skill.experience == 1 && <SignalZero />}
+                    {skill.experience == 2 && <SignalLow />}
+                    {skill.experience == 3 && <SignalMedium />}
+                    {skill.experience == 4 && <SignalHigh />}
+                    {skill.experience == 5 && <Signal />}
+                </span> */}
+                {/* <ControlledComponent /> */}
+
+                <Select className="w-6 ">
+                    <SelectTrigger  >
+                        <SelectValue placeholder="3" />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="1">1</SelectItem>
-                        <SelectItem value="2">2</SelectItem>
-                        <SelectItem value="3">3</SelectItem>
-                        <SelectItem value="4">4</SelectItem>
-                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="1"><SignalZero /></SelectItem>
+                        <SelectItem value="2"><SignalLow /></SelectItem>
+                        <SelectItem value="3"><SignalMedium /></SelectItem>
+                        <SelectItem value="4"><SignalHigh /></SelectItem>
+                        <SelectItem value="5"><Signal /></SelectItem>
                     </SelectContent>
                 </Select>
-                <Select>
-                    <SelectTrigger className="w-2">
-                        <SelectValue placeholder={skill.experience}>
-                            {" "}
-                            <DotsVerticalIcon className="h-4 w-3.5 stroke-gray-700/50 group-hover:stroke-gray-700/75" />{" "}
+                <Select className="w-12">
+                    <SelectTrigger className="">
+                        <SelectValue placeholder="remove">
+                            <DotsVerticalIcon className="h-4 w-3.5 stroke-gray-700/50 group-hover:stroke-gray-700/75" />
                         </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="1">Remove</SelectItem>
+                        <SelectItem value="remove">Remove</SelectItem>
                     </SelectContent>
                 </Select>
             </span>
@@ -121,14 +134,17 @@ const Navigation = () => {
     );
 };
 
-const Sample = () => {
+const ControlledComponent = () => {
+    const [show, setShow] = useState(false)
     return (
         <div className="relative inline-block text-left">
             <div>
                 <button
                     type="button"
-                    className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                    className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset  ring-gray-300 hover:bg-gray-50"
                     id="menu-button"
+                    onMouseEnter={() => setShow(true)}
+                    onMouseLeave={() => setShow(false)}
                     aria-expanded="true"
                     aria-haspopup="true"
                 >
@@ -149,7 +165,7 @@ const Sample = () => {
             </div>
 
             <div
-                className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${!show && "hidden"} transition ease-in-out`}
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="menu-button"

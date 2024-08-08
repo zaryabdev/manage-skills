@@ -43,11 +43,15 @@ function App() {
     const [skills, setSkills] = useState(defaultSkills);
 
     return (
-        <Employe
-            skills={skills}
-            setSkills={setSkills}
-            employeData={employeData}
-        />
+        <div>
+            {/* <code>{JSON.stringify(skills, null, 2)}</code> */}
+
+            <Employe
+                skills={skills}
+                setSkills={setSkills}
+                employeData={employeData}
+            />
+        </div>
     );
 }
 

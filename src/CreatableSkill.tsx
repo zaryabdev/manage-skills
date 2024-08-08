@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import CreatableSelect from "react-select/creatable";
+import { generateId } from "./lib/utils";
 
 interface Option {
     readonly label: string;
@@ -8,20 +9,23 @@ interface Option {
 }
 
 const createOption = (label: string) => ({
+    id: generateId(),
     label,
     value: label.toLowerCase().replace(/\W/g, ""),
 });
 
-const defaultOptions = [
-    createOption("One"),
-    createOption("Two"),
-    createOption("Three"),
-];
+// const defaultOptions = [
+//     createOption("One"),
+//     createOption("Two"),
+//     createOption("Three"),
+// ];
 
-export default () => {
+export default ({ options, setOptions }) => {
     const [isLoading, setIsLoading] = useState(false);
-    const [options, setOptions] = useState(defaultOptions);
+    const [menuIsOpen, setMenuIsOpen] = useState(true);
+    // const [options, setOptions] = useState(skills);
     const [value, setValue] = useState<Option | null>();
+
 
     const handleCreate = (inputValue: string) => {
         setIsLoading(true);
@@ -30,15 +34,27 @@ export default () => {
             setIsLoading(false);
             setOptions((prev) => [...prev, newOption]);
             setValue(newOption);
+            // setMenuIsOpen(false)
         }, 1000);
     };
 
+    const handleSetValue = (inputValue: string) => {
+        setIsLoading(true);
+        setTimeout(() => {
+            setIsLoading(false);
+            setValue(inputValue);
+            // setMenuIsOpen(false)
+
+        }, 1000);
+    }
+
     return (
         <CreatableSelect
+            defaultMenuIsOpen={menuIsOpen}
             isClearable
             isDisabled={isLoading}
             isLoading={isLoading}
-            onChange={(newValue) => setValue(newValue)}
+            onChange={(newValue) => handleSetValue(newValue)}
             onCreateOption={handleCreate}
             options={options}
             value={value}
