@@ -1,41 +1,53 @@
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import "./App.css";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import Employe from "./Employe";
+import { generateId } from "./lib/utils";
+
+const createOption = (label: string, id?: string) => ({
+    id: id ? id : generateId(),
+    label,
+    value: label.toLowerCase().replace(/\W/g, ""),
+});
+
+const employeData = {
+    name: "Alan Jackson",
+    role: "Developer",
+    url: "https://www.gravatar.com/avatar/701ff8df0162f2702f73379b261ad04b?d=404&r=R&s=80",
+    skills: [
+        {
+            id: "YYUQBW",
+            experience: 3,
+        },
+        {
+            id: "JTWWDD",
+            experience: 2,
+        },
+        {
+            id: "ZWKMQS",
+            experience: 5,
+        },
+    ],
+};
+
+const defaultSkills = [
+    createOption("Angular", "YYUQBW"),
+    createOption("React", "JTWWDD"),
+    createOption("Vue"),
+    createOption("Figma"),
+    createOption("UI"),
+    createOption("UX"),
+    createOption("JavaScript", "ZWKMQS"),
+];
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [skills, setSkills] = useState(defaultSkills);
 
     return (
-        <>
-            <div>
-                {" "}
-                <Button>Click me</Button>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
-                    />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
+        <Employe
+            skills={skills}
+            setSkills={setSkills}
+            employeData={employeData}
+        />
     );
 }
 
