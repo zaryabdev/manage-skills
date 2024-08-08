@@ -24,11 +24,53 @@ import { Signal, SignalHigh, SignalLow, SignalMedium, SignalZero } from "lucide-
 import { useState } from "react";
 import CreatableSkill from "./CreatableSkill";
 
-function Employe({ skills, setSkills, employeData }) {
+const initialData = {
+    name: "Alan Jackson",
+    role: "Developer",
+    url: "https://www.gravatar.com/avatar/701ff8df0162f2702f73379b261ad04b?d=404&r=R&s=80",
+    skills: [
+        {
+            id: "YYUQBW",
+            experience: 3,
+        },
+        {
+            id: "JTWWDD",
+            experience: 2,
+        },
+        {
+            id: "ZWKMQS",
+            experience: 5,
+        },
+    ],
+};
+
+function Employe({ skills, setSkills }) {
+    const [employeData, setEmployeData] = useState(initialData)
     const [toggleAddSkill, setToggleAddSkill] = useState(true)
+
+    const handleSkillSelection = (option) => {
+        debugger
+        if (option) {
+
+            const skillAlreadyExists = employeData.skills.findIndex(s => s.id == option.id)
+
+            if (skillAlreadyExists == -1) {
+
+                const current = { ...employeData, skills: [...employeData.skills] }
+
+                current.skills.push({ "id": option.id, "experience": 1 })
+
+                setEmployeData(current)
+            }
+        }
+    }
+
     return (
         <div className="mx-auto bg-gray-100 max-w-8xl px-2 sm:px-6 lg:px-8 mt-2 ">
+            <code>{JSON.stringify(employeData.skills, null, 2)}</code>
+
             <div className="flex items-center">
+
                 <Avatar className="me-2">
                     <AvatarImage src={employeData.url} />
                     <AvatarFallback>AJ</AvatarFallback>
@@ -53,7 +95,7 @@ function Employe({ skills, setSkills, employeData }) {
                     })}
                     {
                         toggleAddSkill ? <Button onClick={() => setToggleAddSkill(false)}>+</Button> :
-                            <CreatableSkill options={skills} setOptions={setSkills} />
+                            <CreatableSkill options={skills} setSelection={handleSkillSelection} setOptions={setSkills} />
                     }
                 </div>
             </div>
@@ -68,7 +110,7 @@ const Skill = ({ skill, skills = [] }) => {
 
     return (
         <span>
-            <span className="inline-flex items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-2 text-sm font-medium text-gray-600">
+            <span className="inline-flex  items-center gap-x-0.5 rounded-md bg-gray-100 px-2 py-2 text-sm font-medium text-gray-600">
                 <span>
 
                     {thisSkill.label}
@@ -84,7 +126,7 @@ const Skill = ({ skill, skills = [] }) => {
 
                 <Select className="w-6 ">
                     <SelectTrigger  >
-                        <SelectValue placeholder="3" />
+                        <SelectValue placeholder="0" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectItem value="1"><SignalZero /></SelectItem>

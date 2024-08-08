@@ -9,25 +9,7 @@ const createOption = (label: string, id?: string) => ({
     value: label.toLowerCase().replace(/\W/g, ""),
 });
 
-const employeData = {
-    name: "Alan Jackson",
-    role: "Developer",
-    url: "https://www.gravatar.com/avatar/701ff8df0162f2702f73379b261ad04b?d=404&r=R&s=80",
-    skills: [
-        {
-            id: "YYUQBW",
-            experience: 3,
-        },
-        {
-            id: "JTWWDD",
-            experience: 2,
-        },
-        {
-            id: "ZWKMQS",
-            experience: 5,
-        },
-    ],
-};
+
 
 const defaultSkills = [
     createOption("Angular", "YYUQBW"),
@@ -44,12 +26,9 @@ function App() {
 
     return (
         <div>
-            {/* <code>{JSON.stringify(skills, null, 2)}</code> */}
-
             <Employe
                 skills={skills}
                 setSkills={setSkills}
-                employeData={employeData}
             />
         </div>
     );

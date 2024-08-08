@@ -20,7 +20,7 @@ const createOption = (label: string) => ({
 //     createOption("Three"),
 // ];
 
-export default ({ options, setOptions }) => {
+export default ({ options, setSelection, setOptions }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [menuIsOpen, setMenuIsOpen] = useState(true);
     // const [options, setOptions] = useState(skills);
@@ -34,6 +34,7 @@ export default ({ options, setOptions }) => {
             setIsLoading(false);
             setOptions((prev) => [...prev, newOption]);
             setValue(newOption);
+            setSelection(newOption)
             // setMenuIsOpen(false)
         }, 1000);
     };
@@ -43,6 +44,7 @@ export default ({ options, setOptions }) => {
         setTimeout(() => {
             setIsLoading(false);
             setValue(inputValue);
+            setSelection(inputValue)
             // setMenuIsOpen(false)
 
         }, 1000);
